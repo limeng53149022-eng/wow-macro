@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>时光服宏库 - 魔兽世界一键宏分享站</title>
+<meta name="description" content="魔兽世界时光服一键宏大全，九职业宏分享，一键复制，免费使用">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="src/data/data.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d0f15;--bg-card:#161922;--bg-card-hover:#1c2030;--bg-code:#0d0f15;--text:#e8e6e3;--text-dim:#8b8a8d;--text-bright:#fff;--border:#2a2d3a;--accent:#f5c542;--accent-dim:#c99a1a;--gold:#ffd700;--btn-copy:#2d7a3a;--btn-copy-hover:#3a9e4a;--shadow:0 4px 24px rgba(0,0,0,.3);--radius:12px}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.header{background:linear-gradient(135deg,#0d0f15 0%,#1a1f2e 50%,#0d0f15 100%);border-bottom:1px solid var(--border);padding:20px 24px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:24px;font-weight:900;color:var(--gold);text-decoration:none;white-space:nowrap;letter-spacing:1px}
+.logo span{color:var(--text-dim);font-weight:400;font-size:14px;margin-left:8px}
+.search-box{flex:1;max-width:400px;position:relative}
+.search-box input{width:100%;padding:10px 16px 10px 40px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none}
+.search-box input:focus{border-color:var(--accent)}
+.search-box::before{content:'\1F50D';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5}
+.btn-submit{padding:8px 20px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-submit:hover{background:var(--accent-dim)}
+.main{max-width:1200px;margin:0 auto;padding:24px}
+.hero{text-align:center;padding:60px 20px 40px}
+.hero h1{font-size:36px;font-weight:900;color:var(--text-bright);margin-bottom:12px}
+.hero h1 span{background:linear-gradient(135deg,var(--gold),#f97316);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--text-dim);font-size:16px;max-width:600px;margin:0 auto 24px}
+.hero-stats{display:flex;justify-content:center;gap:40px}
+.hero-stats div{text-align:center}
+.hero-stats .num{font-size:28px;font-weight:700;color:var(--gold)}
+.hero-stats .lbl{font-size:13px;color:var(--text-dim)}
+.class-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:40px}
+.class-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:all .3s;text-decoration:none;display:block}
+.class-card:hover{background:var(--bg-card-hover);transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent)}
+.class-card.active{border-color:var(--accent);background:var(--bg-card-hover)}
+.class-icon{font-size:40px;margin-bottom:8px}
+.class-name{font-size:18px;font-weight:700;color:var(--text-bright)}
+.class-count{font-size:12px;color:var(--text-dim);margin-top:4px}
+.class-detail{display:none}
+.class-detail.show{display:block}
+.class-hdr{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.class-hdr .big-icon{font-size:56px}
+.class-hdr h2{font-size:28px;font-weight:700}
+.class-hdr .sub{color:var(--text-dim);font-size:14px;margin-top:4px}
+.cat-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.cat-tab{padding:6px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;color:var(--text-dim);font-size:13px;cursor:pointer}
+.cat-tab:hover{border-color:var(--accent-dim);color:var(--text)}
+.cat-tab.on{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.macro-list{display:flex;flex-direction:column;gap:16px}
+.macro-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.macro-card:hover{border-color:#3a3d5a}
+.mhdr{padding:16px 20px 0;display:flex;justify-content:space-between;align-items:flex-start}
+.minfo{flex:1}
+.mname{font-size:17px;font-weight:600;color:var(--text-bright);margin-bottom:4px}
+.mdesc{font-size:13px;color:var(--text-dim);margin-bottom:8px}
+.mmeta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.mtag{font-size:11px;padding:2px 10px;background:rgba(245,197,66,.15);color:var(--gold);border-radius:10px}
+.mrating{font-size:12px;color:var(--gold)}
+.mpop{font-size:12px;color:var(--text-dim)}
+.mac{padding:12px 20px 16px;position:relative}
+.mcode{background:var(--bg-code);border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:Consolas,Courier New,monospace;font-size:13px;line-height:1.7;color:#a8d4a8;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto;cursor:pointer;user-select:all}
+.mnotes{padding:0 20px 16px;font-size:13px;color:var(--text-dim)}
+.mnotes::before{content:'\1F4A1 '}
+.btn-cpy{position:absolute;top:8px;right:8px;padding:6px 14px;background:var(--btn-copy);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit}
+.btn-cpy:hover{background:var(--btn-copy-hover)}
+.submit-sec{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;margin:40px 0}
+.submit-sec h3{font-size:20px;margin-bottom:8px;color:var(--text-bright)}
+.submit-sec p{color:var(--text-dim);margin-bottom:20px}
+.submit-sec .big-btn{display:inline-block;padding:12px 32px;background:var(--accent);color:#000;border:none;border-radius:8px;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none}
+.submit-sec .big-btn:hover{background:var(--accent-dim)}
+.footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--text-dim);font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--btn-copy);color:#fff;padding:12px 24px;border-radius:8px;font-size:14px;opacity:0;transition:all .3s;z-index:999;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.loading{text-align:center;padding:60px;color:var(--text-dim);font-size:18px}
+@media(max-width:768px){
+  .search-box{order:3;max-width:100%;flex:0 0 100%}
+  .hero h1{font-size:26px}
+  .class-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .class-card{padding:14px 10px}
+  .class-icon{font-size:30px}
+  .class-name{font-size:14px}
+  .hero-stats{gap:20px}
+  .mhdr{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+<div class="header-inner">
+<a href="/" class="logo">&#x2694;&#xFE0F; 时光宏库 <span>WoW Classic Macro Hub</span></a>
+<div class="search-box"><input type="text" id="q" placeholder="搜索宏名称、职业、关键词..." oninput="doSearch()"></div>
+<div class="header-actions"><a href="#submit" class="btn-submit">&#x270F;&#xFE0F; 提交宏</a></div>
+</div>
+</header>
+
+<div class="main">
+
+<div class="hero">
+<h1>魔兽时光服 &#xB7; <span>一键宏库</span></h1>
+<p>九职业海量实用宏，一键复制即用。PVE&#x3001;PVP&#x3001;练级&#x3001;专业，全都有。</p>
+<div class="hero-stats">
+<div><div class="num" id="totalMacros">0</div><div class="lbl">宏数量</div></div>
+<div><div class="num" id="totalClasses">0</div><div class="lbl">职业</div></div>
+<div><div class="num">&#x1F525;</div><div class="lbl">免费</div></div>
+</div>
+</div>
+
+<div class="class-grid" id="classGrid">
+<div class="loading">&#x23F3; 加载数据中...</div>
+</div>
+
+<div class="class-detail" id="classDetail">
+<div class="class-hdr">
+<div class="big-icon" id="bigIcon">&#x2694;&#xFE0F;</div>
+<div><h2 id="className">战士</h2><div class="sub" id="classDesc">近战物理输出/坦克</div></div>
+</div>
+<div class="cat-tabs" id="catTabs"></div>
+<div class="macro-list" id="macroList"></div>
+</div>
+
+<div class="submit-sec" id="submit">
+<h3>&#x1F4E8; 分享你的宏</h3>
+<p>有好用的宏想分享给兄弟们？把宏（职业、名称、代码、说明）发送到邮箱</p>
+<a href="mailto:macros@wowhub.com" class="big-btn">&#x1F4E7; 发送宏</a>
+</div>
+
+</div>
+
+<footer class="footer">
+<p>魔兽世界宏库 &#xB7; 仅供学习交流 &#xB7; 数据来自玩家分享</p>
+<p style="margin-top:4px;font-size:12px"><a href="#">关于本站</a> &#xB7; 魔兽世界是暴雪娱乐的注册商标</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var ICONS = {warrior:'&#x2694;&#xFE0F;',paladin:'&#x1F6E1;&#xFE0F;',hunter:'&#x1F3F9;',rogue:'&#x1F5E1;&#xFE0F;',priest:'&#x1F64F;',shaman:'&#x1F30A;',mage:'&#x1F52E;',warlock:'&#x1F480;',druid:'&#x1F43B;'};
+
+var cls = [], macros = {}, curCls = null, curCat = 'all';
+
+function init() {
+  if (typeof SITE_DATA === 'undefined') { setTimeout(init, 300); return; }
+  cls = SITE_DATA.classes;
+  macros = SITE_DATA.macros;
+  var t = 0; for (var k in macros) t += macros[k].length;
+  document.getElementById('totalClasses').textContent = cls.length;
+  document.getElementById('totalMacros').textContent = t;
+  renderGrid();
+}
+function renderGrid() {
+  var g = document.getElementById('classGrid'), h = '';
+  for (var i = 0; i < cls.length; i++) {
+    var c = cls[i], cnt = macros[c.id] ? macros[c.id].length : 0;
+    h += '<a class="class-card' + (curCls === c.id ? ' active' : '') + '" href="#" onclick="pick(\'' + c.id + '\');return false">' +
+      '<div class="class-icon">' + (ICONS[c.id]||'&#x2694;&#xFE0F;') + '</div>' +
+      '<div class="class-name" style="color:' + c.color + '">' + c.name + '</div>' +
+      '<div class="class-count">' + cnt + ' 个宏</div></a>';
+  }
+  g.innerHTML = h;
+}
+function pick(id) {
+  curCls = id; curCat = 'all';
+  renderGrid();
+  var c = cls.filter(function(x){return x.id===id})[0];
+  document.getElementById('bigIcon').textContent = ICONS[id]||'&#x2694;&#xFE0F;';
+  document.getElementById('className').textContent = c.name;
+  document.getElementById('className').style.color = c.color;
+  document.getElementById('classDesc').textContent = c.description;
+  document.getElementById('classDetail').className = 'class-detail show';
+  renderCats(id);
+  renderMacros(id,'all');
+  document.getElementById('classDetail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderCats(id) {
+  var arr = macros[id]||[], cats=[], t=document.getElementById('catTabs');
+  for (var i=0;i<arr.length;i++) if(cats.indexOf(arr[i].category)===-1) cats.push(arr[i].category);
+  var h='<button class="cat-tab'+(curCat==='all'?' on':'')+'" onclick="pickCat(\'all\')">全部</button>';
+  for(var i=0;i<cats.length;i++) h+='<button class="cat-tab'+(curCat===cats[i]?' on':'')+'" onclick="pickCat(\''+cats[i]+'\')">'+cats[i]+'</button>';
+  t.innerHTML=h;
+}
+function pickCat(cat){curCat=cat;renderCats(curCls);renderMacros(curCls,cat);}
+function renderMacros(id,cat){
+  var arr=macros[id]||[];
+  if(cat!=='all') arr=arr.filter(function(x){return x.category===cat});
+  var q=document.getElementById('q').value.toLowerCase().trim();
+  if(q) arr=arr.filter(function(x){return x.name.toLowerCase().indexOf(q)>-1||x.description.toLowerCase().indexOf(q)>-1||x.category.toLowerCase().indexOf(q)>-1});
+  var list=document.getElementById('macroList');
+  if(!arr.length){list.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-dim)">没有找到匹配的宏</div>';return}
+  var h='';
+  for(var i=0;i<arr.length;i++){
+    var m=arr[i],star='&#x2B50;'.repeat(m.rating)+'&#x2606;'.repeat(5-m.rating),code=esc(m.code);
+    h+='<div class="macro-card">'+
+      '<div class="mhdr"><div class="minfo">'+
+      '<div class="mname">'+m.name+'</div><div class="mdesc">'+m.description+'</div>'+
+      '<div class="mmeta"><span class="mtag">'+m.category+'</span><span class="mrating">'+star+'</span><span class="mpop">&#x1F525; '+m.popularity+'% 推荐</span></div></div>'+
+      '<div class="macro-card-actions"><button class="btn-cpy" onclick="cpy('+i+')">&#x1F4CB; 复制</button></div></div>'+
+      '<div class="mac"><div class="mcode" onclick="cpy('+i+')">'+code+'</div></div>'+
+      (m.notes?'<div class="mnotes">'+m.notes+'</div>':'')+'</div>';
+  }
+  list.innerHTML=h;
+  window._macros=arr;
+}
+function doSearch(){if(curCls) renderMacros(curCls,curCat);}
+function cpy(i){
+  var arr=window._macros; if(!arr||!arr[i])return;
+  var c=arr[i].code;
+  if(navigator.clipboard) navigator.clipboard.writeText(c).then(function(){toast('&#x2705; 已复制！')})['catch'](function(){fbcopy(c)});
+  else fbcopy(c);
+}
+function fbcopy(t){
+  var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('&#x2705; 已复制！');
+}
+function toast(m){var e=document.getElementById('toast');e.innerHTML=m;e.className='toast show';setTimeout(function(){e.className='toast'},2000);}
+function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+init();
+document.getElementById('q').addEventListener('keydown',function(e){if(e.key==='Enter')doSearch()});
+</script>
+</body>
+</html>
